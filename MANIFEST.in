@@ -1,0 +1,5 @@
+include README.md
+include LICENSE
+include cfg/ethunder.cfg
+include bin/ethunder
+recursive-include ethunder/test *.py
