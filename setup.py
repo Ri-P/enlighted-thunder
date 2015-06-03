@@ -24,13 +24,14 @@ config = {
     'version': ethunder.__version__,
     'install_requires': ['docopt==0.6.1',
                          'appdirs==1.4.0',
-                         'nose==1.3.4'
+                         'nose==1.3.4',
+			 'pyYaml==3.11',
                          ],
     'packages': ['ethunder', 'ethunder.test'],
-    'data_files': [(config_dir, ['cfg/ethunder.cfg'])],
+    'data_files': [(config_dir, ['cfg/config.yml'])],
     'include_package_data': True,
     'entry_points': {'console_scripts':
-                        ['runethunder = ethunder.app:Main',
+                        ['ethunder = ethunder.app:Main',
                         ]
                     },
     'scripts': ['bin/ethunder'],

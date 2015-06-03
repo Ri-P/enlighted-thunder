@@ -1,0 +1,4 @@
+# The config file for Enlighted Thunder
+value1: 123456789
+path_to_rainbow: c:\temp\rainbow.txt
+is_awesome: True
