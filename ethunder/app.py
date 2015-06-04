@@ -14,14 +14,16 @@ from __future__ import unicode_literals
 import os.path
 import sys
 
-import yaml
 import docopt
-import appdirs
 import ethunder
+from ethunder.config import configurate
 
 __author__ = "Richard Pfeifer"
 
-configpath = appdirs.user_config_dir("ethunder", appauthor=None)
+
+class EThunderError(Exception):
+    pass
+
 
 def parse_commandline(argv):
     """
@@ -37,29 +39,18 @@ def parse_commandline(argv):
     return arguments
 
 
-def parse_config():
-    """
-    Read the YAML config-file.
-    """
-    with open(os.path.join(configpath, "config.yml"), 'r') as configfile:
-	cfg = yaml.load(configfile)
-    ethunder.value1 = cfg['value1']
-    ethunder.path_to_rainbow = cfg['path_to_rainbow']
-    ethunder.is_awesome = cfg['is_awesome']
-
-
 def print_message():
     awesome_negation = "not "
-    if ethunder.is_awesome:
+    if ethunder.config["is_awesome"]:
         awesome_negation = ""
     msg = (
         "Hello world. This is ethunder and it is {0}awesome!\n"
         "\tRainbow can be found at: {1}\n"
-	"\tvalue1 = {2}"
+        "\tvalue1 = {2}"
     ).format(
-	awesome_negation,
-	os.path.normpath(ethunder.path_to_rainbow),
-	ethunder.value1
+        awesome_negation,
+        os.path.normpath(ethunder.config["path_to_rainbow"]),
+        ethunder.config["value1"]
     )
     print(msg)
 
@@ -68,8 +59,8 @@ def Main():
     parse_commandline(sys.argv[1:])
 
     try:
-	parse_config()
-	print_message()
+        configurate()
+        print_message()
     except KeyboardInterrupt:
         print("Shutdown requested...exiting")
     sys.exit(0)

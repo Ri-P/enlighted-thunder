@@ -2,9 +2,9 @@
 """
     EnlightedThunder
     ~~~~~~~
-    
+
     A project to explore the possibilites of GitHub and Python deployment.
-    
+
     This is a personal discovery and not considered usefull for other. It's
     probabliy best if you just ignore it.
 
@@ -13,3 +13,6 @@
 """
 
 __version__ = "0.1.0"
+
+class EThunderError(Exception):
+    pass

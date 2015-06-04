@@ -1,9 +1,6 @@
 from setuptools import setup
-import appdirs
 
 import ethunder
-
-config_dir = appdirs.user_config_dir("ethunder", appauthor=None)
 
 config = {
     'name': 'EThunder',
@@ -25,10 +22,9 @@ config = {
     'install_requires': ['docopt==0.6.1',
                          'appdirs==1.4.0',
                          'nose==1.3.4',
-			 'pyYaml==3.11',
-                         ],
+                         'pyYaml==3.11',
+                        ],
     'packages': ['ethunder', 'ethunder.test'],
-    'data_files': [(config_dir, ['cfg/config.yml'])],
     'include_package_data': True,
     'entry_points': {'console_scripts':
                         ['ethunder = ethunder.app:Main',

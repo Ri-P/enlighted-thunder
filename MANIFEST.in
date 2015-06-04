@@ -1,5 +1,4 @@
 include README.md
 include LICENSE
-include cfg/config.yml
 include bin/ethunder
 recursive-include ethunder/test *.py
