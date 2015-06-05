@@ -58,41 +58,48 @@ def create_default_configfile():
             default_flow_style=False,
             encoding=('utf-8'),
             allow_unicode=True)
-        print(d)
         config_out_file.write(d)
 
-def set_config():
+def read_config_from_file(configpath):
     """
-    Set configuration either from YAML config-file or from defaults.
+    Read the configuration from the user-accessible config file.
+
+    Raise 'NoValidConfigfileError' if this is not possible.
+
+    Return:
+        dict   with (configvariable_name, configvariable_value)
+    """
+    try:
+        with open(configpath, 'r') as configfile:
+            try:
+                cfg = yaml.safe_load(configfile)
+            except Exception as e:
+                print("error while loading: {0}".format(e))
+                raise NoValidConfigfileError(e)
+    except IOError:
+        cfg = {}
+        raise NoValidConfigfileError(
+            "config.yml not found at {0}".format(configpath))
+    else:
+        if not isinstance(cfg, dict):
+            raise NoValidConfigfileError(
+                "Invalid configfile at {0}".format(configpath))
+        return cfg
+
+
+def load_config():
+    """
+    Load configuration dict either from YAML config-file or from defaults.
     """
     configpath = os.path.join(config_dir, config_filename)
     ethunder.config = {}
     ethunder.config.update(default_config)
     try:
-        try:
-            print("try open")
-            with open(configpath, 'r') as configfile:
-                print("opened")
-                try:
-                    cfg = yaml.safe_load(configfile)
-                except Exception as e:
-                    print("error while loading: {0}".format(e))
-                    raise NoValidConfigfileError(e)
-                else:
-                    print("should have cfg")
-        except IOError:
-            print("create empty cfg")
-            cfg = {}
-            raise NoValidConfigfileError(
-                "config.yml not found at {0}".format(configpath))
-        else:
-            if not isinstance(cfg, dict):
-                raise NoValidConfigfileError(
-                    "Invalid configfile at {0}".format(configpath))
+        cfg_from_file = read_config_from_file(configpath)
     except NoValidConfigfileError:
         raise
     else:
-        ethunder.config.update(cfg)
+        ethunder.config.update(cfg_from_file)
         print("Following config was read: {0}".format(ethunder.config))
 
 
@@ -101,7 +108,7 @@ def configurate():
     Make sure we have the needed configuration values.
     """
     try:
-        set_config()
+        load_config()
     except NoValidConfigfileError:
         create_default_configfile()
 
