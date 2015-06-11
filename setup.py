@@ -1,6 +1,17 @@
 from setuptools import setup
+import os.path
+import re
 
-import ethunder
+versionfile_path = os.path.join("ethunder", "_version.py")
+with open(versionfile_path, 'r') as version_file:
+    version_line = version_file.read()
+ver_reexpr = r"^__version__ = ['\"]([^'\"]*)[\"]"
+r = re.search(ver_reexpr, version_line, re.M)
+if r:
+    version = r.group(1)
+else:
+    raise RuntimeError("Unable to find version string in {0}".format(
+        versionfile_path))
 
 config = {
     'name': 'EThunder',
@@ -18,7 +29,7 @@ config = {
                     "Operating System :: POSIX :: Linux",
                     ],
 
-    'version': ethunder.__version__,
+    'version': version,
     'install_requires': ['docopt==0.6.1',
                          'appdirs==1.4.0',
                          'nose==1.3.4',

@@ -12,7 +12,7 @@
     :license: GPLv2, see LICENSE for details.
 """
 
-__version__ = "0.1.0"
+from _version import __version__
 
 class EThunderError(Exception):
     pass

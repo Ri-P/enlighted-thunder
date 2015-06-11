@@ -100,7 +100,6 @@ def load_config():
         raise
     else:
         ethunder.config.update(cfg_from_file)
-        print("Following config was read: {0}".format(ethunder.config))
 
 
 def configurate():
